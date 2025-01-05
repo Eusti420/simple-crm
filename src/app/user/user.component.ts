@@ -4,6 +4,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
 import {MatDialogModule, MatDialog} from '@angular/material/dialog';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
+import { User } from '../../models/user.class';
 
 
 
@@ -19,9 +20,14 @@ import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.compo
   styleUrl: './user.component.scss'
 })
 export class UserComponent {
+
   position: TooltipPosition = 'above'; 
 
-  constructor(private dialog: MatDialog) {}
+  user = new User();
+
+  constructor(private dialog: MatDialog) {
+     
+  }
 
   openDialog() {
     this.dialog.open(DialogAddUserComponent)
