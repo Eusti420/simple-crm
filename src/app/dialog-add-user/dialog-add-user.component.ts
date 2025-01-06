@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../models/user.class';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore'; // Geänderte Imports
+import { Firestore, collection, addDoc } from '@angular/fire/firestore'; 
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 @Component({
   selector: 'app-dialog-add-user',
@@ -30,6 +33,8 @@ import { Firestore, collection, addDoc } from '@angular/fire/firestore'; // Geä
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatProgressBarModule,
+    CommonModule,
   ],
   templateUrl: './dialog-add-user.component.html',
   styleUrl: './dialog-add-user.component.scss',
@@ -39,14 +44,14 @@ import { Firestore, collection, addDoc } from '@angular/fire/firestore'; // Geä
 export class DialogAddUserComponent {
   user = new User();
   birthDate!: Date;
+  loading = false;
   
   constructor(private firestore: Firestore) {}
 
   async saveNewUser() {
     try {
       this.user.birthDate = this.birthDate.getTime();
-      
-      // Verwende die toJSON Methode und stelle sicher, dass alle Werte definiert sind
+      this.loading = true;
       const userData = this.user.toJSON();
       console.log('Zu speichernde Daten:', userData);
 

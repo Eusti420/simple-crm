@@ -14,6 +14,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { initializeApp } from 'firebase/app';
 import { provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 
 @Component({
@@ -32,6 +34,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     MatDialogModule,
     MatDatepickerModule,
     AsyncPipe,
+    MatProgressBarModule,
 
   ],
   templateUrl: './app.component.html',

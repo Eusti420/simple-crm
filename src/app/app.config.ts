@@ -15,6 +15,7 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { DatabaseService } from './services/database.service';
 
 
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes), 
