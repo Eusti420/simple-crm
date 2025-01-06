@@ -49,7 +49,7 @@ export class DialogAddUserComponent {
   
   constructor(
     private firestore: Firestore,
-    private dialogRef: MatDialogRef<DialogAddUserComponent>,
+    public dialogRef: MatDialogRef<DialogAddUserComponent>,
     private fb: FormBuilder
   ) {
     this.userForm = this.fb.group({

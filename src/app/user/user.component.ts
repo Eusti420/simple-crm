@@ -13,8 +13,7 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environments';
-
-
+import { Router } from '@angular/router';
 
 
 
@@ -36,13 +35,17 @@ import { environment } from '../../environments/environments';
 
 
 export class UserComponent implements OnInit {
-
+  users$: Observable<User[]>;
+  allUsers = [];
   position: TooltipPosition = 'above'; 
 
-  users$: Observable<User[]>;
-
-  constructor(private dialog: MatDialog, private firestore: Firestore) {
-    this.users$ = collectionData(collection(this.firestore, 'users')).pipe(
+  constructor(
+    private dialog: MatDialog, 
+    private firestore: Firestore,
+    private router: Router  // Router für Navigation
+  ) {
+    const usersCollection = collection(this.firestore, 'users');
+    this.users$ = collectionData(usersCollection, { idField: 'id' }).pipe(
       map(users => users.map(user => new User(user)))
     );
   }
@@ -57,6 +60,10 @@ export class UserComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddUserComponent);
     dialogRef.afterClosed().subscribe(() => {
     });
+  }
+
+  openUserDetail(userId: string) {
+    this.router.navigate(['/user/' + userId]);
   }
 }
 
