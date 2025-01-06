@@ -41,12 +41,8 @@ export class UserComponent implements OnInit {
 
   users$: Observable<User[]>;
 
-  constructor(
-    private dialog: MatDialog,
-    private firestore: Firestore
-  ) {
-    const usersCollection = collection(this.firestore, 'users');
-    this.users$ = collectionData(usersCollection).pipe(
+  constructor(private dialog: MatDialog, private firestore: Firestore) {
+    this.users$ = collectionData(collection(this.firestore, 'users')).pipe(
       map(users => users.map(user => new User(user)))
     );
   }
