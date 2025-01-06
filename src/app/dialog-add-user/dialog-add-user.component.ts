@@ -79,7 +79,7 @@ export class DialogAddUserComponent {
       setTimeout(() => {
         this.loading = false;
         this.dialogRef.close();
-      }, 2000);
+      }, 1200);
       
     } catch (error) {
       console.error('Error adding user:', error);
