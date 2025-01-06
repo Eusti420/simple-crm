@@ -4,10 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
-  MAT_DIALOG_DATA,
-  MatDialog,
   MatDialogActions,
-  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
@@ -25,7 +22,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
   standalone: true,
   imports: [
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
     MatDialogTitle,
     FormsModule,
@@ -46,7 +42,10 @@ export class DialogAddUserComponent {
   birthDate!: Date;
   loading = false;
   
-  constructor(private firestore: Firestore) {}
+  constructor(
+    private firestore: Firestore,
+    private dialogRef: MatDialogRef<DialogAddUserComponent>
+  ) {}
 
   async saveNewUser() {
     try {
@@ -57,7 +56,7 @@ export class DialogAddUserComponent {
 
       const usersCollection = collection(this.firestore, 'users');
       const docRef = await addDoc(usersCollection, userData);
-      
+      this.dialogRef.close();
       console.log('Benutzer erfolgreich hinzugefügt', docRef.id);
     } catch (error) {
       console.error('Error adding user:', error);
