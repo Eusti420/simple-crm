@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { 
+  FormsModule,
+  FormBuilder, 
+  FormGroup,
+  Validators,   
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
@@ -16,7 +22,6 @@ import { User } from '../../models/user.class';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore'; 
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
-
 @Component({
   selector: 'app-dialog-add-user',
   standalone: true,
@@ -31,6 +36,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatDatepickerModule,
     MatProgressBarModule,
     CommonModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './dialog-add-user.component.html',
   styleUrl: './dialog-add-user.component.scss',
@@ -38,31 +44,52 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 })
 
 export class DialogAddUserComponent {
-  user = new User();
-  birthDate!: Date;
+  userForm: FormGroup;
   loading = false;
   
   constructor(
     private firestore: Firestore,
-    private dialogRef: MatDialogRef<DialogAddUserComponent>
-  ) {}
+    private dialogRef: MatDialogRef<DialogAddUserComponent>,
+    private fb: FormBuilder
+  ) {
+    this.userForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      birthDate: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      street: ['', Validators.required],
+      city: ['', Validators.required],
+      zipCode: ['', Validators.required]
+    });
+  }
 
   async saveNewUser() {
+    if (this.userForm.invalid) return;
+    
     try {
-      this.user.birthDate = this.birthDate.getTime();
       this.loading = true;
-      const userData = this.user.toJSON();
-      console.log('Zu speichernde Daten:', userData);
+      const userData = {
+        ...this.userForm.value,
+        birthDate: this.userForm.get('birthDate')?.value?.getTime()
+      };
 
       const usersCollection = collection(this.firestore, 'users');
-      const docRef = await addDoc(usersCollection, userData);
-      this.dialogRef.close();
-      console.log('Benutzer erfolgreich hinzugefügt', docRef.id);
+      await addDoc(usersCollection, userData);
+      
+      setTimeout(() => {
+        this.loading = false;
+        this.dialogRef.close();
+      }, 2000);
+      
     } catch (error) {
       console.error('Error adding user:', error);
+      this.loading = false;
     }
   }
 }
+
+
+
 
 
 
