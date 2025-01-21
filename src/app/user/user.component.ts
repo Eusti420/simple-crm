@@ -36,6 +36,7 @@ import { Router } from '@angular/router';
 
 export class UserComponent implements OnInit {
   users$: Observable<User[]>;
+  displayedColumns = ['name', 'email', 'city'];
   allUsers = [];
   position: TooltipPosition = 'above'; 
 
@@ -58,13 +59,15 @@ export class UserComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogAddUserComponent);
+    dialogRef.disableClose = true;
     dialogRef.afterClosed().subscribe(() => {
     });
   }
 
-  openUserDetail(userId: string) {
-    this.router.navigate(['/user/' + userId]);
-  }
+  openUserDetail(user: User) {
+    console.log('Opening user detail with ID:', user.id);
+    this.router.navigate(['/user/' + user.id]);
+  } 
 }
 
 

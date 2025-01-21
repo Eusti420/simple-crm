@@ -17,9 +17,12 @@
             <mat-cell *matCellDef="let user"> {{user.city}} </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="['name', 'email', 'city']"></mat-header-row>
-        <mat-row (click)="openUserDetail(row.id)"
-        *matRowDef="let row; columns: ['name', 'email', 'city']"></mat-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row 
+            *matRowDef="let user; columns: displayedColumns"
+            (click)="openUserDetail(user)"
+            class="user-row">
+        </mat-row>
     </mat-table>
 </mat-card>
 
