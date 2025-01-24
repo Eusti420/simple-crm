@@ -20,7 +20,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [MatIconModule, 
+  imports: [
+            MatIconModule, 
             MatButtonModule,
             MatTooltipModule,
             MatDialogModule,
@@ -52,9 +53,7 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.users$.subscribe(users => {
-      console.log('Users:', users);
-    });
+    this.users$.subscribe();
   }
 
   openDialog() {

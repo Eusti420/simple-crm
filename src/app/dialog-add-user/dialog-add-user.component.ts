@@ -17,10 +17,12 @@ import {
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatOption, provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../models/user.class';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore'; 
+import { Account } from '../../models/account.class';
+import { Firestore, collection, addDoc, getDocs } from '@angular/fire/firestore'; 
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { count } from 'console';
 
 @Component({
   selector: 'app-dialog-add-user',
@@ -37,6 +39,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatProgressBarModule,
     CommonModule,
     ReactiveFormsModule,
+    MatOption
   ],
   templateUrl: './dialog-add-user.component.html',
   styleUrl: './dialog-add-user.component.scss',
@@ -45,6 +48,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 export class DialogAddUserComponent {
   userForm: FormGroup;
+  accounts: Account[] = []
   loading = false;
   
   constructor(
@@ -59,28 +63,52 @@ export class DialogAddUserComponent {
       email: ['', [Validators.required, Validators.email]],
       street: ['', Validators.required],
       city: ['', Validators.required],
-      zipCode: ['', Validators.required]
+      zipCode: ['', Validators.required],
+      country: ['', Validators.required],
+      companyId: ['', Validators.required],
+      phone: ['', Validators.required], 
+      position: ['', Validators.required], 
     });
+    this.loadAccounts();
+  }
+
+  async ngOnInit() {
+    await this.loadAccounts();
+  }
+
+  async loadAccounts() {
+    try {
+      const accountsCollection = collection(this.firestore, 'accounts');
+      const snapshot = await getDocs(accountsCollection);
+      this.accounts = snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+        } as Account;
+      });
+    } catch (error) {
+      console.error('Error loading accounts:', error);
+    }
   }
 
   async saveNewUser() {
     if (this.userForm.invalid) return;
-    
+
     try {
       this.loading = true;
       const userData = {
         ...this.userForm.value,
-        birthDate: this.userForm.get('birthDate')?.value?.getTime()
+        birthDate: this.userForm.get('birthDate')?.value?.getTime(),
       };
 
       const usersCollection = collection(this.firestore, 'users');
       await addDoc(usersCollection, userData);
-      
+
       setTimeout(() => {
         this.loading = false;
         this.dialogRef.close();
       }, 1200);
-      
     } catch (error) {
       console.error('Error adding user:', error);
       this.loading = false;

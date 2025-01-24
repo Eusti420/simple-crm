@@ -3,27 +3,42 @@
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
     <h2 mat-dialog-title>Add user</h2>
     <mat-dialog-content>
+
       <div class="form-field-container">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="half-width-form-field">
           <mat-label>First name</mat-label>
           <input [disabled]="loading" formControlName="firstName" matInput placeholder="first name">
-          <mat-hint>First name</mat-hint>
+          
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="half-width-form-field">
           <mat-label>Last name</mat-label>
           <input [disabled]="loading" formControlName="lastName" matInput placeholder="last name">
-          <mat-hint>Last name</mat-hint>
+         
         </mat-form-field>
       </div>
 
-      <div>
+      <div class="form-field-container">
         <mat-form-field appearance="outline" class="full-width-form-field">
-          <mat-label>Birth Date</mat-label>
-          <input [disabled]="loading" formControlName="birthDate" matInput [matDatepicker]="picker">
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-label>Company</mat-label>
+          <input [disabled]="loading" formControlName="companyId" matInput placeholder="company">
+        
+        </mat-form-field>
+      </div>
+
+      <div class="form-field-container">
+        <mat-form-field appearance="outline" class="full-width-form-field">
+          <mat-label>Position</mat-label>
+          <input [disabled]="loading" formControlName="position" matInput placeholder="position">
+        
+        </mat-form-field>
+      </div>
+
+      <div class="form-field-container">
+        <mat-form-field appearance="outline" class="full-width-form-field">
+          <mat-label>Phone</mat-label>
+          <input [disabled]="loading" formControlName="phone" matInput placeholder="phone">
+          
         </mat-form-field>
       </div>
 
@@ -31,7 +46,7 @@
         <mat-label>Email</mat-label>
         <input [disabled]="loading" type="email" matInput formControlName="email" 
                placeholder="max.mustermann@gmail.com">
-        <mat-hint>Email</mat-hint>
+        
 
         @if (userForm.get('email')?.hasError('email')) {
           <mat-error>Please enter a valid email address</mat-error>
@@ -45,7 +60,7 @@
         <mat-form-field appearance="outline" class="full-width-form-field">
           <mat-label>Street & No.</mat-label>
           <input [disabled]="loading" formControlName="street" matInput placeholder="street & no.">
-          <mat-hint>Street & No.</mat-hint>
+          
         </mat-form-field>
       </div> 
 
@@ -53,21 +68,27 @@
         <mat-form-field appearance="outline">
           <mat-label>City</mat-label>
           <input [disabled]="loading" formControlName="city" matInput placeholder="city">
-          <mat-hint>City</mat-hint>
+          
         </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Zip Code</mat-label>
-            <input [disabled]="loading" formControlName="zipCode" matInput placeholder="zip code">
-            <mat-hint>Zip Code</mat-hint>
-          </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Zip Code</mat-label>
+          <input [disabled]="loading" formControlName="zipCode" matInput placeholder="zip code">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Country</mat-label>
+          <input [disabled]="loading" formControlName="country" matInput placeholder="country">
+         
+        </mat-form-field>
+          
       </div>
     </mat-dialog-content>
 
     <div class="action-container">
       <mat-dialog-actions>
         <button (click)="dialogRef.close()" mat-button type="button">Cancel</button>
-        <button (click)="saveNewUser()" mat-button type="submit" [disabled]="userForm.invalid">Save</button>
+        <button (click)="saveNewUser()" mat-button type="submit" [disabled]="userForm.invalid || loading">Save</button>
       </mat-dialog-actions>
     </div>
   </div>
