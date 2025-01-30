@@ -23,6 +23,7 @@ import { Account } from '../../models/account.class';
 import { Firestore, collection, addDoc, getDocs } from '@angular/fire/firestore'; 
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { count } from 'console';
+import { MatCard, MatCardContent } from '@angular/material/card';
 
 @Component({
   selector: 'app-dialog-add-user',
@@ -39,7 +40,9 @@ import { count } from 'console';
     MatProgressBarModule,
     CommonModule,
     ReactiveFormsModule,
-    MatOption
+    MatOption,
+    MatCard,
+    MatCardContent,
   ],
   templateUrl: './dialog-add-user.component.html',
   styleUrl: './dialog-add-user.component.scss',
@@ -59,7 +62,6 @@ export class DialogAddUserComponent {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      birthDate: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       street: ['', Validators.required],
       city: ['', Validators.required],
@@ -93,18 +95,19 @@ export class DialogAddUserComponent {
   }
 
   async saveNewUser() {
-    if (this.userForm.invalid) return;
+    if (this.userForm.invalid) {
+      return;
+    }
 
     try {
       this.loading = true;
       const userData = {
-        ...this.userForm.value,
-        birthDate: this.userForm.get('birthDate')?.value?.getTime(),
-      };
-
+        ...this.userForm.value,      
+    };
+  
       const usersCollection = collection(this.firestore, 'users');
       await addDoc(usersCollection, userData);
-
+  
       setTimeout(() => {
         this.loading = false;
         this.dialogRef.close();
@@ -114,6 +117,7 @@ export class DialogAddUserComponent {
       this.loading = false;
     }
   }
+  
 }
 
 

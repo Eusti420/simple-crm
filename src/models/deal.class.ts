@@ -1,4 +1,4 @@
-export interface Deal {
+export class Deal {
     id: string;
     title: string;
     accountId: string; // Verknüpfung mit dem Account

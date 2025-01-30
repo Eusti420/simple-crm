@@ -15,3 +15,11 @@
   background-color: rgba(0, 0, 0, 0.1);
  
 }
+
+::ng-deep mat-header-row {
+  background-color: orange;
+  color: white; // Falls die Schrift besser lesbar sein soll
+  font-weight: bold;
+}
+
+

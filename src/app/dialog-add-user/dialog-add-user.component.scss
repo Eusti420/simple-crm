@@ -1,6 +1,38 @@
 mat-dialog-content {
     overflow-y: hidden;
+    padding: 8px;
 } 
+
+.user-detail-container {
+    padding: 16px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .user-header-card {
+    margin-bottom: 16px;
+    background-color: #f08f07; // Material Primary Color
+    color: white;
+    padding-left: 8px;
+  }
+
+  
+  .user-info {
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 500;
+    }
+    
+    p {
+      margin: 8px 0 0;
+      opacity: 0.8;
+    }
+  }  
+
+.mat-mdc-dialog-content {
+    max-height: 71vh;
+}
 
 .form-field-container {
     display: flex;
