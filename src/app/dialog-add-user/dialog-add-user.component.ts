@@ -31,7 +31,6 @@ import { MatCard, MatCardContent } from '@angular/material/card';
   imports: [
     MatDialogActions,
     MatDialogContent,
-    MatDialogTitle,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -40,7 +39,6 @@ import { MatCard, MatCardContent } from '@angular/material/card';
     MatProgressBarModule,
     CommonModule,
     ReactiveFormsModule,
-    MatOption,
     MatCard,
     MatCardContent,
   ],

@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
 import {MatDialogModule, MatDialog} from '@angular/material/dialog';
-import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
+import { AddDealComponent } from '../add-deal/add-deal.component';
 import { User } from '../../models/user.class';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
@@ -38,11 +38,11 @@ export class DashboardComponent {
     private firestore: Firestore,
     private router: Router  // Router für Navigation
   ) {
-    
+
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogAddUserComponent);
+    const dialogRef = this.dialog.open(AddDealComponent);
     dialogRef.disableClose = true;
     dialogRef.afterClosed().subscribe(() => {
     });

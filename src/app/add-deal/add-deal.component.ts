@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { 
   FormsModule,
@@ -30,9 +30,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
   selector: 'app-add-deal',
   standalone: true,
   imports: [
-    MatDialogActions,
     MatDialogContent,
-    MatDialogTitle,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -41,36 +39,72 @@ import { MatCard, MatCardContent } from '@angular/material/card';
     MatProgressBarModule,
     CommonModule,
     ReactiveFormsModule,
-    MatOption,
     MatCard,
     MatCardContent,
+    MatOption,
+    MatDialogActions,
   ],
   templateUrl: './add-deal.component.html',
-  styleUrls: ['./add-deal.component.scss']
+  styleUrls: ['./add-deal.component.scss'],
+  providers: [provideNativeDateAdapter()],
 })
-export class AddDealComponent {
+
+
+export class AddDealComponent implements OnInit {
   dealForm: FormGroup;
+  accounts: Account[] = [];
   loading = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<AddDealComponent>,
+    private firestore: Firestore
+  ) {
     this.dealForm = this.fb.group({
       title: ['', Validators.required],
       accountId: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(1)]],
-      stage: ['Lead', Validators.required],
-      createdAt: [new Date(), Validators.required],
+      stage: ['', Validators.required],
+      createdAt: [new Date(), Validators.required]
     });
+    this.loadAccounts();
+
   }
 
+  async ngOnInit() {
+    await this.loadAccounts();
+  }
+
+  async loadAccounts() {
+    try {
+      const accountsCollection = collection(this.firestore, 'accounts');
+      const snapshot = await getDocs(accountsCollection);
+      this.accounts = snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+        } as Account;
+      });
+    } catch (error) {
+      console.error('Error loading accounts:', error);
+    }
+  }
   async saveDeal() {
-    if (this.dealForm.invalid) return;
+    if (this.dealForm.invalid) {
+      return;
+    }
+    
+    try { 
+      this.loading = true;
+      const dealData = {
+        ...this.dealForm.value,
+    };
+      const dealCollection = collection(this.firestore, 'deals');
+      await addDoc(dealCollection, dealData);
 
-    this.loading = true;
-    this.loading = false;
-  }
-
-  
+          this.dialogRef.close();
+    } catch (error) {
+      console.error('Error saving deal:', error);
+    }}
 }
-
-
-

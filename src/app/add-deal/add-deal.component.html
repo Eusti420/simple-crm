@@ -1,24 +1,74 @@
 <form [formGroup]="dealForm">
-  <div class="dialog-container">
-    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-    <mat-card class="user-header-card">
-      <mat-card-content class="user-header">
-        <div class="user-info">
-          <h1>Create new deal</h1>
+    <div class="dialog-container">
+      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+      <mat-card class="user-header-card">
+        <mat-card-content class="user-header">
+          <div class="user-info">
+            <h1>Create new deal</h1>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-dialog-content>
+        <div class="form-field-container">
+            <mat-form-field appearance="outline" class="full-width-form-field">
+                <mat-label>Deal Title</mat-label>
+                <input [disabled]="loading" formControlName="title" matInput placeholder="Enter deal title">
+              </mat-form-field>
+        
+              <!-- Company (Account) Auswahl -->
+              <mat-form-field appearance="outline" class="full-width-form-field">
+                <mat-label>Company</mat-label>
+                <mat-select formControlName="accountId">
+                 <!--  <mat-option *ngFor="let account of accounts" [value]="account.id">
+                    {{ account.name }}
+                  </mat-option> -->
+                </mat-select>
+              </mat-form-field>
         </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-dialog-content>
-      <div class="form-field-container">
-        <mat-form-field appearance="outline" class="half-width-form-field">
-          <mat-label>Deal name</mat-label>
-          <input [disabled]="loading" formControlName="name" matInput placeholder="deal name">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="half-width-form-field">
-          <mat-label>Company</mat-label>
-          <input [disabled]="loading" formControlName="companyId" matInput placeholder="company">
-        </mat-form-field>
+      
+  
+        <div class="form-field-container">
+          <mat-form-field appearance="outline" class="full-width-form-field">
+            <mat-label>Deal Owner</mat-label>
+            <input [disabled]="loading" formControlName="owner" matInput placeholder="Enter deal owner">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width-form-field">
+            <mat-label>Amount</mat-label>
+            <input [disabled]="loading" type="number" formControlName="amount" matInput placeholder="Enter deal amount">
+          </mat-form-field>
+        </div>
+      
+  
+        <div class="form-field-container">
+            <mat-form-field appearance="outline" class="full-width-form-field">
+                <mat-label>Deal Stage</mat-label>
+                <mat-select formControlName="stage">
+                  <mat-option value="Lead">Lead</mat-option>
+                  <mat-option value="Proposal">Proposal</mat-option>
+                  <mat-option value="Negotiation">Negotiation</mat-option>
+                  <mat-option value="Closed">Closed</mat-option>
+                </mat-select>
+              </mat-form-field>
+        
+              <!-- Created At (Date Picker) -->
+              <mat-form-field appearance="outline" class="full-width-form-field">
+                <mat-label>Created At</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="createdAt">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+        </div>
+        
+      </mat-dialog-content>
+  
+      <!-- Actions -->
+      <div class="action-container">
+        <mat-dialog-actions>
+          <button (click)="dialogRef.close()" mat-button type="button">Cancel</button>
+          <button (click)="saveDeal()" mat-button type="submit" [disabled]="dealForm.invalid || loading">Save</button>
+        </mat-dialog-actions>
       </div>
-    </mat-dialog-content>
-  </div>
-</form>
+    </div>
+  </form>
+  
