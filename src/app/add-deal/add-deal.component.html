@@ -1,1 +1,24 @@
-<p>add-deal works!</p>
+<form [formGroup]="dealForm">
+  <div class="dialog-container">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <mat-card class="user-header-card">
+      <mat-card-content class="user-header">
+        <div class="user-info">
+          <h1>Create new deal</h1>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-dialog-content>
+      <div class="form-field-container">
+        <mat-form-field appearance="outline" class="half-width-form-field">
+          <mat-label>Deal name</mat-label>
+          <input [disabled]="loading" formControlName="name" matInput placeholder="deal name">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="half-width-form-field">
+          <mat-label>Company</mat-label>
+          <input [disabled]="loading" formControlName="companyId" matInput placeholder="company">
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+  </div>
+</form>

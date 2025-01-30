@@ -33,4 +33,18 @@ import { Router } from '@angular/router';
 export class DashboardComponent {
   position: TooltipPosition = 'above'; 
 
+  constructor(
+    private dialog: MatDialog, 
+    private firestore: Firestore,
+    private router: Router  // Router für Navigation
+  ) {
+    
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogAddUserComponent);
+    dialogRef.disableClose = true;
+    dialogRef.afterClosed().subscribe(() => {
+    });
+  }
 }
